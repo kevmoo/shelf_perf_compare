@@ -2,15 +2,32 @@ library perf.dart_io;
 
 import 'dart:io';
 
+import 'shared.dart';
+
 void main() {
-  serve();
+  var port = 8080;
+  serveStream(port++);
+  serveStream(port++);
 }
 
-void serve([int port = 8080]) {
+void serveStream([int port = 8080]) {
   HttpServer.bind('127.0.0.1', port).then((server){
-    print('dart:io simple @ ${server.address.host}:${server.port}');
+    print('dart:io Stream @ ${server.address.host}:${server.port}');
     server.listen((HttpRequest request) {
-      request.response.write("Hello, world");
+
+      request.response.addStream(getHelloWorldStream()).then((_) {
+        return request.response.close();
+      });
+
+    });
+  });
+}
+
+void serveString([int port = 8080]) {
+  HttpServer.bind('127.0.0.1', port).then((server){
+    print('dart:io String @ ${server.address.host}:${server.port}');
+    server.listen((HttpRequest request) {
+      request.response.write(HELLO_WORLD);
       request.response.close();
     });
   });

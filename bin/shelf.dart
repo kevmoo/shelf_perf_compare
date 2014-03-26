@@ -9,8 +9,16 @@ import 'dart:async';
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as io;
 
+import 'shared.dart';
+
 void syncResponse([int port = 8080]) {
   _listen('sync', _syncHandler, port);
+}
+
+void syncStreamResponse([int port = 8080]) {
+  _listen('sync - stream', (request) {
+    return new shelf.Response.ok(getHelloWorldStream());
+  }, port);
 }
 
 void futureValueResponse([int port = 8080]) {
@@ -30,15 +38,14 @@ void _listen(String description, shelf.Handler handler, int port) {
   });
 }
 
-shelf.Response _syncHandler(shelf.Request request) {
-  return new shelf.Response.ok("Hello, world");
-}
+shelf.Response _syncHandler(shelf.Request request) => _getResponse();
 
 Future<shelf.Response> _futureValueHandler(shelf.Request request) {
-  return new Future.value(new shelf.Response.ok("Hello, world"));
+  return new Future.value(_getResponse());
 }
 
 Future<shelf.Response> _futureHandler(shelf.Request request) {
-  return new Future(() => new shelf.Response.ok("Hello, world"));
+  return new Future(_getResponse);
 }
 
+shelf.Response _getResponse() => new shelf.Response.ok(HELLO_WORLD);
