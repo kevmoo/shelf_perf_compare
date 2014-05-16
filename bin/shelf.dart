@@ -30,7 +30,7 @@ void futureResponse([int port = 8080]) {
 }
 
 void _listen(String description, shelf.Handler handler, int port) {
-  var handler = const shelf.Stack()
+  var handler = const shelf.Pipeline()
       .addHandler(_syncHandler);
 
   io.serve(handler, 'localhost', port).then((server) {
