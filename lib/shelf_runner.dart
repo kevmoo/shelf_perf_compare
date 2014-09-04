@@ -11,29 +11,29 @@ import 'package:shelf/shelf_io.dart' as io;
 
 import 'shared.dart';
 
-void syncResponse([int port = 8080]) {
-  _listen('sync', _syncHandler, port);
+void syncResponse() {
+  _listen('sync', _syncHandler);
 }
 
-void syncStreamResponse([int port = 8080]) {
+void syncStreamResponse() {
   _listen('sync - stream', (request) {
     return new shelf.Response.ok(getHelloWorldStream());
-  }, port);
+  });
 }
 
-void futureValueResponse([int port = 8080]) {
-  _listen('future value', _futureValueHandler, port);
+void futureValueResponse() {
+  _listen('future value', _futureValueHandler);
 }
 
-void futureResponse([int port = 8080]) {
-  _listen('future', _futureHandler, port);
+void futureResponse() {
+  _listen('future', _futureHandler);
 }
 
-void _listen(String description, shelf.Handler handler, int port) {
+void _listen(String description, shelf.Handler handler) {
   var handler = const shelf.Pipeline()
       .addHandler(_syncHandler);
 
-  io.serve(handler, 'localhost', port).then((server) {
+  io.serve(handler, 'localhost', 0).then((server) {
     print('$description @ ${server.address.host}:${server.port}');
   });
 }
