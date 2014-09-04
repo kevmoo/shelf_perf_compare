@@ -33,9 +33,6 @@ void futureResponse([SendPort port]) {
 void _listen(String description, shelf.Handler handler, SendPort port) {
   var printFunc = getPrintFunc(port);
 
-  var handler = const shelf.Pipeline()
-      .addHandler(_syncHandler);
-
   io.serve(handler, listeningAddress, 0).then((server) {
     printFunc('${server.address.host}:${server.port}\tShelf - $description');
   });
