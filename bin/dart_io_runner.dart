@@ -7,7 +7,7 @@ import 'package:shelf_perf_compare/shared.dart';
 void main() {
   var port = 8080;
   serveStream(port++);
-  serveStream(port++);
+  serveString(port++);
 }
 
 void serveStream([int port = 8080]) {
@@ -15,10 +15,7 @@ void serveStream([int port = 8080]) {
     print('dart:io Stream @ ${server.address.host}:${server.port}');
     server.listen((HttpRequest request) {
 
-      request.response.addStream(getHelloWorldStream()).then((_) {
-        return request.response.close();
-      });
-
+      getHelloWorldStream().pipe(request.response);
     });
   });
 }
