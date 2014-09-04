@@ -13,7 +13,7 @@ import 'package:shelf/shelf_io.dart' as io;
 import 'shared.dart';
 
 void syncResponse([SendPort port]) {
-  _listen('sync', _syncHandler, port);
+  _listen('sync - string', _syncHandler, port);
 }
 
 void syncStreamResponse([SendPort port]) {
@@ -23,11 +23,11 @@ void syncStreamResponse([SendPort port]) {
 }
 
 void futureValueResponse([SendPort port]) {
-  _listen('future value', _futureValueHandler, port);
+  _listen('new Future.value(response) - string', _futureValueHandler, port);
 }
 
 void futureResponse([SendPort port]) {
-  _listen('future', _futureHandler, port);
+  _listen('new Future(createResponseFunc)', _futureHandler, port);
 }
 
 void _listen(String description, shelf.Handler handler, SendPort port) {
@@ -36,7 +36,7 @@ void _listen(String description, shelf.Handler handler, SendPort port) {
   var handler = const shelf.Pipeline()
       .addHandler(_syncHandler);
 
-  io.serve(handler, 'localhost', 0).then((server) {
+  io.serve(handler, listeningAddress, 0).then((server) {
     printFunc('$description @ ${server.address.host}:${server.port}');
   });
 }

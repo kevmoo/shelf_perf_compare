@@ -2,6 +2,7 @@ library shelf_perf_compare.shared;
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:isolate';
 import 'dart:typed_data';
 
@@ -13,6 +14,8 @@ final BYTES = new Uint8List.fromList(UTF8.encode(HELLO_WORLD));
 
 // TODO(kevmoo): should this be sliced in a more "reasonable" way?
 final _listOfBytes = [BYTES];
+
+final listeningAddress = InternetAddress.LOOPBACK_IP_V4;
 
 Stream<List<int>> getHelloWorldStream() =>
     new Stream.fromIterable(_listOfBytes);
