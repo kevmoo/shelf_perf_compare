@@ -37,7 +37,7 @@ void _listen(String description, shelf.Handler handler, SendPort port) {
       .addHandler(_syncHandler);
 
   io.serve(handler, listeningAddress, 0).then((server) {
-    printFunc('$description @ ${server.address.host}:${server.port}');
+    printFunc('${server.address.host}:${server.port}\tShelf - $description');
   });
 }
 

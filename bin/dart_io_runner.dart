@@ -15,7 +15,7 @@ void main() {
 void serveStream([SendPort port]) {
   var printFunc = getPrintFunc(port);
   HttpServer.bind(listeningAddress, 0).then((server){
-    printFunc('dart:io Stream @ ${server.address.host}:${server.port}');
+    printFunc('${server.address.host}:${server.port}\tdart:io Stream');
     server.serverHeader = 'dart:io server';
     server.listen((HttpRequest request) {
       request.response.headers.date = new DateTime.now().toUtc();
@@ -27,7 +27,7 @@ void serveStream([SendPort port]) {
 void serveBytes([SendPort port]) {
   var printFunc = getPrintFunc(port);
   HttpServer.bind(listeningAddress, 0).then((server){
-    printFunc('dart:io Bytes @ ${server.address.host}:${server.port}');
+    printFunc('${server.address.host}:${server.port}\tdart:io Bytes');
     server.serverHeader = 'dart:io server';
     server.listen((HttpRequest request) {
       request.response.headers.date = new DateTime.now().toUtc();
@@ -40,7 +40,7 @@ void serveBytes([SendPort port]) {
 void serveString([SendPort port]) {
   var printFunc = getPrintFunc(port);
   HttpServer.bind(listeningAddress, 0).then((server){
-    printFunc('dart:io String @ ${server.address.host}:${server.port}');
+    printFunc('${server.address.host}:${server.port}\tdart:io String');
     server.serverHeader = 'dart:io server';
     server.listen((HttpRequest request) {
       request.response.headers.date = new DateTime.now().toUtc();
