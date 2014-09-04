@@ -5,36 +5,39 @@
 library perf.shelf;
 
 import 'dart:async';
+import 'dart:isolate';
 
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as io;
 
 import 'shared.dart';
 
-void syncResponse() {
-  _listen('sync', _syncHandler);
+void syncResponse([SendPort port]) {
+  _listen('sync', _syncHandler, port);
 }
 
-void syncStreamResponse() {
+void syncStreamResponse([SendPort port]) {
   _listen('sync - stream', (request) {
     return new shelf.Response.ok(getHelloWorldStream());
-  });
+  }, port);
 }
 
-void futureValueResponse() {
-  _listen('future value', _futureValueHandler);
+void futureValueResponse([SendPort port]) {
+  _listen('future value', _futureValueHandler, port);
 }
 
-void futureResponse() {
-  _listen('future', _futureHandler);
+void futureResponse([SendPort port]) {
+  _listen('future', _futureHandler, port);
 }
 
-void _listen(String description, shelf.Handler handler) {
+void _listen(String description, shelf.Handler handler, SendPort port) {
+  var printFunc = getPrintFunc(port);
+
   var handler = const shelf.Pipeline()
       .addHandler(_syncHandler);
 
   io.serve(handler, 'localhost', 0).then((server) {
-    print('$description @ ${server.address.host}:${server.port}');
+    printFunc('$description @ ${server.address.host}:${server.port}');
   });
 }
 

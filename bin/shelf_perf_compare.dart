@@ -1,14 +1,16 @@
 library shelf_perf_compare;
 
 import 'dart_io_runner.dart' as io;
+import 'package:shelf_perf_compare/shared.dart';
 import 'package:shelf_perf_compare/shelf_runner.dart' as shelf;
 
 void main() {
-  io.serveStream();
-  io.serveString();
+  startServer(io.serveStream);
+  startServer(io.serveBytes);
+  startServer(io.serveString);
 
-  shelf.syncResponse();
-  shelf.syncStreamResponse();
-  shelf.futureResponse();
-  shelf.futureValueResponse();
+  startServer(shelf.syncResponse);
+  startServer(shelf.syncStreamResponse);
+  startServer(shelf.futureResponse);
+  startServer(shelf.futureValueResponse);
 }
