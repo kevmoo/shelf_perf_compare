@@ -2,7 +2,7 @@ library perf.dart_io;
 
 import 'dart:io';
 
-import 'shared.dart';
+import 'package:shelf_perf_compare/shared.dart';
 
 void main() {
   var port = 8080;
